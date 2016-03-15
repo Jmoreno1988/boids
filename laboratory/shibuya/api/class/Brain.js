@@ -3,7 +3,7 @@ Brain.prototype.constructor = Brain
 function Brain(config) {
     this.body = config.body;
     this.geoData = config.geoData;
-    this.objetive = new Vector(0, 0);
+    this.objetive = config.objetive || new Vector(0, 0);
     this.behaviour = config.behaviour;
     this.visibleBoids = [];
     this.vision = config.vision;
@@ -22,7 +22,7 @@ Brain.prototype.desiredAcceleration = function () {
     var x = 0, 
         y = 0;
 
-    temp[0] = unit.scale(30).sub(this.geoData.velocity);
+    temp[0] = unit.scale(10).sub(this.geoData.velocity);
 
     if (this.visibleBoids.length > 0) {
         if (typeof (this.behaviour) === "string") {
@@ -68,7 +68,7 @@ Brain.prototype.separationBehavior = function () {
     var count = 0;
 
     for (var i = 0; i < vBoids.length; i++) {
-        if (this.body.geoData.position.module(vBoids[i].geoData.position) < 30) {
+        if (this.body.geoData.position.module(vBoids[i].geoData.position) < 14) {
             var targetAt = vBoids[i].getPosition().sub(this.geoData.position);
             x += targetAt.getX();
             y += targetAt.getY();
@@ -77,7 +77,7 @@ Brain.prototype.separationBehavior = function () {
     }
 
     if (count > 0)
-        return new Vector(x / count, y / count).scale(-1);
+        return new Vector((x / count) * 8, (y / count) * 8).scale(-1);
     else
         return new Vector(0, 0);
 };
