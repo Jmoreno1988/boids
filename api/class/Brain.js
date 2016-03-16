@@ -1,4 +1,4 @@
-Brain.prototype.constructor = Brain
+Brain.prototype.constructor = Brain;
 
 function Brain(config) {
     this.body = config.body;
@@ -68,7 +68,8 @@ Brain.prototype.separationBehavior = function () {
     var count = 0;
 
     for (var i = 0; i < vBoids.length; i++) {
-        if (this.body.geoData.position.module(vBoids[i].geoData.position) < 30) {
+        console.log("Modulo: " +  this.body.geoData.position.module(vBoids[i].geoData.position) + ", limite: " + (vBoids[i].getSizeBody() + this.body.getSizeBody()))
+        if (this.body.geoData.position.module(vBoids[i].geoData.position) < vBoids[i].getSizeBody() + this.body.getSizeBody()) {
             var targetAt = vBoids[i].getPosition().sub(this.geoData.position);
             x += targetAt.getX();
             y += targetAt.getY();
@@ -77,7 +78,7 @@ Brain.prototype.separationBehavior = function () {
     }
 
     if (count > 0)
-        return new Vector(x / count, y / count).scale(-1);
+         return new Vector((x / count) * 8, (y / count) * 8).scale(-1);
     else
         return new Vector(0, 0);
 };

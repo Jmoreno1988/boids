@@ -1,4 +1,4 @@
-World.prototype.constructor = World
+World.prototype.constructor = World;
 
 function World(config) {
     this.idWorld = config.idWorld;
@@ -42,6 +42,25 @@ World.prototype.newBoid = function (param) {
     });
 
     this.listBoids.push(boid);
+};
+
+World.prototype.newFixed = function (param) {
+    var bh = "separation";
+
+    if (arguments[0] instanceof String)
+        bh = param;
+
+    var fixed = param || new Fixed({
+        world: this,
+        geoData: {
+            position: new Vector(this.random(0, 300), this.random(0, 200)),
+            velocity: new Vector(0, 0),
+            acceleration: new Vector(0, 0)
+        },
+        behaviour: bh
+    });
+
+    this.listBoids.push(fixed);
 };
 
 World.prototype.clearCanvas = function () {
@@ -90,6 +109,7 @@ World.prototype.run = function () {
     */
 };
 
+
 /***** Getters & Setters *****/
 World.prototype.setListBoids = function (newValue) {
     this.listBoids = newValue;
@@ -113,4 +133,8 @@ World.prototype.getDeltaT = function() {
 
 World.prototype.getVelWorld = function() {
     return this.velWorld;
+}
+
+World.prototype.getCanvas = function() {
+    return this.canvas;
 }

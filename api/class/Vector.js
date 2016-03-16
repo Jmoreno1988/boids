@@ -39,6 +39,14 @@ Vector.prototype.getX = function () {
     return this.coordX;
 };
 
+Vector.prototype.setX = function (newValue) {
+    this.coordX = newValue;
+};
+
 Vector.prototype.getY = function () {
     return this.coordY;
+};
+
+Vector.prototype.setY = function (newValue) {
+    this.coordY = newValue;
 };
