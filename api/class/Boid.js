@@ -41,23 +41,12 @@ Boid.prototype.updatePhysics = function (currentTime) {
     this.lastTime = this.currentTime;
     this.currentTime = currentTime;
     this.geoData.acceleration = this.brain.desiredAcceleration();
-    this.geoData.velocity = this.integrate(this.geoData.velocity, this.geoData.acceleration, this.getDeltaT());
-    this.geoData.position = this.integrate(this.geoData.position, this.geoData.velocity, this.getDeltaT());
+    this.geoData.velocity = this.integrate(this.geoData.velocity, this.geoData.acceleration, this.myWorld.getDeltaT());
+    this.geoData.position = this.integrate(this.geoData.position, this.geoData.velocity, this.myWorld.getDeltaT() * this.myWorld.getVelWorld());
 };
 
 Boid.prototype.integrate = function (primitive, diff, delta) {
     return primitive.add(diff.scale(delta));
-};
-
-// TODO: replantear esto NO FUNCIONA!! :(
-Boid.prototype.getDeltaT = function () {;
-    //return (this.lastTime.getTime() - this.currentTime.getTime()) / 10000
-    var t = new Date();
-    var v = new Date();
-    t.setSeconds(t.getSeconds() - 1);
-    // console.log("diff (t.getTime() - v.getTime()) / 10000:: " + (t.getTime() - v.getTime()) / 10000);
-    // console.log("diff (this.currentTime.getTime() - this.lastTime.getTime()):: " + (this.lastTime.getTime() - this.currentTime.getTime()) / 10000);
-    return (v.getTime() - t.getTime()) / 10000;
 };
 
 Boid.prototype.draw = function () {
@@ -92,6 +81,7 @@ Boid.prototype.draw = function () {
     ctx.lineTo(this.geoData.position.getX() + this.geoData.acceleration.getX(), this.geoData.position.getY() + this.geoData.acceleration.getY());
     ctx.closePath();
     ctx.stroke();
+    
 };
 
 Boid.prototype.run = function () {

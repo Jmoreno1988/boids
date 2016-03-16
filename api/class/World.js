@@ -4,11 +4,14 @@ function World(config) {
     this.idWorld = config.idWorld;
     this.canvas = document.getElementById(this.idWorld);
     this.ctx = this.canvas.getContext("2d");
-    // this.currentTime = new Date();
-    // this.currentTime.setSeconds(this.currentTime.getSeconds() + 1);
+    this.currentTime = new Date().getTime();
+    this.lastTime = new Date(this.currentTime - 1000);
+    this.fps = 0;
+    this.showPanelBenchmark = config.showPanelBenchmark || false;
     this.listBoids = config.listBoids || [];
     this.ctx.canvas.width = window.innerWidth;
     this.ctx.canvas.height = window.innerHeight;
+    this.velWorld = config.velWorld || 6;
 
     // Listeners
     this.canvas.addEventListener('mousemove', this.canvasMouseMove.bind(this));
@@ -49,12 +52,28 @@ World.prototype.random = function (n1, n2) {
     return Math.round(Math.random() * (n2 - n1) + parseInt(n1));
 };
 
+World.prototype.updateTime = function () {
+    this.deltaT = (this.currentTime - this.lastTime) / 1000;// Objetivo 0.1
+    this.lastTime = this.currentTime;
+    this.currentTime = Date.now();
+    this.fps = 1 / this.deltaT;
+}
+
+World.prototype.updatePanelBenchmark = function () {
+    document.querySelector('#panelBenchmark').style.display = "block";
+    document.querySelector('#totalBoids').innerHTML = this.listBoids.length;
+    document.querySelector('#fps').innerHTML = Math.round(this.fps);
+}
+
 World.prototype.draw = function () {
+    if(this.showPanelBenchmark)
+        this.updatePanelBenchmark();
     this.clearCanvas();
 };
 
 World.prototype.run = function () {
-    this.currentTime = new Date();
+    this.updateTime();
+    
     this.draw();
 
     for (var i = 0; i < this.listBoids.length; i++)
@@ -63,6 +82,12 @@ World.prototype.run = function () {
     requestAnimationFrame(function () {
         return this.run();
     }.bind(this));
+
+    /*
+    setTimeout(function () {
+        this.run();
+    }.bind(this), 1000 / 60)
+    */
 };
 
 /***** Getters & Setters *****/
@@ -81,3 +106,11 @@ World.prototype.getCtx = function () {
 World.prototype.getCurrentTime = function () {
     return this.currentTime;
 };
+
+World.prototype.getDeltaT = function() {
+    return this.deltaT;
+}
+
+World.prototype.getVelWorld = function() {
+    return this.velWorld;
+}

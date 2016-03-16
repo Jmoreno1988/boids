@@ -1,10 +1,11 @@
 ﻿window.onload = function() {
 
     var world = new World({
-        idWorld: "world"
+        idWorld: "world",
+        showPanelBenchmark: true
     });
 
-    var nBoids = 20;
+    var nBoids = 25;
     for (var i = 0; i < nBoids; i++)
         world.newBoid(new Boid({
         world: world,
