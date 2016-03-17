@@ -7,6 +7,10 @@ function Brain(config) {
     this.behaviour = config.behaviour;
     this.visibleBoids = [];
     this.vision = config.vision;
+    this.lastTime = new Date().getTime();
+
+    this.theta = 0;
+    this.elapsedTime = 0;
 }
 
 Brain.prototype.setBehavior = function () {
@@ -14,25 +18,18 @@ Brain.prototype.setBehavior = function () {
 }
 
 Brain.prototype.desiredAcceleration = function () {
-    var scale = 1;
     var temp = [new Vector(0, 0)];
     var callMethod = "";
-    var dA = this.geoData.position.director(this.objetive);
-    var unit = dA.unit();
     var x = 0, 
         y = 0;
 
-    temp[0] = unit.scale(30).sub(this.geoData.velocity);
-
-    if (this.visibleBoids.length > 0) {
-        if (typeof (this.behaviour) === "string") {
-            callMethod = "this." + this.behaviour + "Behavior()";
+    if (typeof (this.behaviour) === "string") {
+        callMethod = "this." + this.behaviour + "Behavior()";
+        emp.push(eval(callMethod));
+    } else if (this.behaviour instanceof Array) {
+        for (var i = 0; i < this.behaviour.length; i++) {
+            callMethod = "this." + this.behaviour[i] + "Behavior()";
             temp.push(eval(callMethod));
-        } else if (this.behaviour instanceof Array) {
-            for (var i = 0; i < this.behaviour.length; i++) {
-                callMethod = "this." + this.behaviour[i] + "Behavior()";
-                temp.push(eval(callMethod));
-            }
         }
     }
 
@@ -62,28 +59,32 @@ Brain.prototype.listVisibleBoids = function () {
 };
 
 Brain.prototype.separationBehavior = function () {
+    if (this.visibleBoids.length == 0)
+        return new Vector(0, 0);
+
     var vBoids = this.visibleBoids;
     var x = 0;
     var y = 0;
     var count = 0;
 
-    for (var i = 0; i < vBoids.length; i++) {
-        console.log("Modulo: " +  this.body.geoData.position.module(vBoids[i].geoData.position) + ", limite: " + (vBoids[i].getSizeBody() + this.body.getSizeBody()))
+    for (var i = 0; i < vBoids.length; i++) 
         if (this.body.geoData.position.module(vBoids[i].geoData.position) < vBoids[i].getSizeBody() + this.body.getSizeBody()) {
             var targetAt = vBoids[i].getPosition().sub(this.geoData.position);
             x += targetAt.getX();
             y += targetAt.getY();
             count++;
         }
-    }
 
     if (count > 0)
-         return new Vector((x / count) * 8, (y / count) * 8).scale(-1);
+         return new Vector((x / count) * 100, (y / count) * 100).scale(-1);
     else
         return new Vector(0, 0);
 };
 
 Brain.prototype.cohesionBehavior = function () {
+    if (this.visibleBoids.length == 0)
+        return new Vector(0, 0);
+
     var vBoids = this.visibleBoids;
     var x = 0;
     var y = 0;
@@ -103,7 +104,19 @@ Brain.prototype.cohesionBehavior = function () {
 };
 
 Brain.prototype.alignmentBehavior = function () {
+    if (this.visibleBoids.length == 0)
+        return new Vector(0, 0);
+};
 
+Brain.prototype.wanderBehavior = function () {
+    this.elapsedTime += this.body.myWorld.getDeltaT();
+    
+    if(this.elapsedTime > 1) {
+        this.theta += 1 * (Math.random() * 2 - 1);
+        this.elapsedTime = 0;
+    }
+
+    return new Vector(this.vision * Math.cos(this.theta), this.vision * Math.sin(this.theta));
 };
 
 Brain.prototype.seekBehavior = function () {
@@ -114,4 +127,8 @@ Brain.prototype.seekBehavior = function () {
 /***** Getters & Setters *****/
 Brain.prototype.setObjetive = function (newValue) {
     this.objetive = newValue;
+};
+
+Brain.prototype.getVision = function (newValue) {
+    return this.vision;
 };

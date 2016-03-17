@@ -6,7 +6,7 @@
     });
 
 
-    var nBoids = 20;
+    var nBoids = 10;
     for (var i = 0; i < nBoids; i++)
         world.newBoid(new Boid({
         world: world,
@@ -15,19 +15,8 @@
             velocity: new Vector(0, 0),
             acceleration: new Vector(0, 0)
         },
-        behaviour: ["separation"],
+        behaviour: ["separation", "wander"],
         sizeBody: 12
-    }));
-
-
-    var nFixed = 1;
-    for (var i = 0; i < nFixed; i++)
-        world.newFixed(new Fixed({
-        world: world,
-        geoData: {
-            position: new Vector(window.innerWidth / 2, window.innerHeight / 2)
-        },
-        sizeBody: 50
     }));
 
    world.run();

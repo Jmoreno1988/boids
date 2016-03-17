@@ -109,7 +109,6 @@ Boid.prototype.draw = function () {
     ctx.lineTo(this.geoData.position.getX() + this.geoData.acceleration.getX(), this.geoData.position.getY() + this.geoData.acceleration.getY());
     ctx.closePath();
     ctx.stroke();
-    
 };
 
 Boid.prototype.run = function () {
