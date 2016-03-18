@@ -23,7 +23,10 @@ function Boid(config) {
         geoData: this.geoData,
         behaviour: this.behaviour
     });
-    this.sizeBody = config.sizeBody || 10;
+     this.sizeBody = config.sizeBody || 10;
+
+    this.img = new Image();
+    this.img.src = "api/img/arrow.png";
 }
 
 Boid.prototype.setBehaviour = function (behaviour) {
@@ -76,6 +79,17 @@ Boid.prototype.regulatePosition = function() {
 Boid.prototype.draw = function () {
     var ctx = this.myWorld.getCtx();
 
+    var angle = Math.atan2(this.geoData.velocity.getY(), this.geoData.velocity.getX());
+
+    ctx.translate(this.geoData.position.getX(), this.geoData.position.getY());
+    ctx.rotate(1.570792);
+    ctx.rotate(angle);
+    ctx.drawImage( this.img, -9, -12.5);
+    ctx.rotate(-angle);
+    ctx.rotate(-1.570792);
+    ctx.translate(-this.geoData.position.getX(), -this.geoData.position.getY());
+
+/*
     // Cuerpo interior
     ctx.fillStyle = this.colour;
     ctx.strokeStyle = "black";
@@ -83,13 +97,14 @@ Boid.prototype.draw = function () {
     ctx.arc(this.geoData.position.getX(), this.geoData.position.getY(), this.sizeBody -2, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.fill();
-
     // Cuerpo exterior
     ctx.beginPath();
     ctx.arc(this.geoData.position.getX(), this.geoData.position.getY(), this.sizeBody, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.stroke();
 
+    */
+    /*
     // Direccion
     ctx.strokeStyle = "black";
     ctx.beginPath();
@@ -105,6 +120,7 @@ Boid.prototype.draw = function () {
     ctx.lineTo(this.geoData.position.getX() + this.geoData.acceleration.getX(), this.geoData.position.getY() + this.geoData.acceleration.getY());
     ctx.closePath();
     ctx.stroke();
+    */
 };
 
 Boid.prototype.run = function () {

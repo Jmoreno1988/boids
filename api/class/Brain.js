@@ -60,22 +60,23 @@ Brain.prototype.listVisibleBoids = function () {
 Brain.prototype.separationBehavior = function () {
     if (this.visibleBoids.length == 0)
         return new Vector(0, 0);
-
+    
     var vBoids = this.visibleBoids;
     var x = 0;
     var y = 0;
     var count = 0;
 
-    for (var i = 0; i < vBoids.length; i++) 
+    for (var i = 0; i < vBoids.length; i++) {
         if (this.body.geoData.position.module(vBoids[i].geoData.position) < vBoids[i].getSizeBody() + this.body.getSizeBody()) {
             var targetAt = vBoids[i].getPosition().sub(this.geoData.position);
             x += targetAt.getX();
             y += targetAt.getY();
             count++;
         }
+    }
 
     if (count > 0)
-         return new Vector((x / count) * 100, (y / count) * 100).scale(-1);
+        return new Vector((x / count) * 8, (y / count) * 8).scale(-1);
     else
         return new Vector(0, 0);
 };
@@ -97,7 +98,7 @@ Brain.prototype.cohesionBehavior = function () {
     }
 
     if (count > 0)
-        return new Vector((x / 4) / count, (y / 4) / count);
+        return new Vector((x / count) / 4, (y / count) / 4);
     else
         return new Vector(0, 0);
 };
@@ -105,6 +106,26 @@ Brain.prototype.cohesionBehavior = function () {
 Brain.prototype.alignmentBehavior = function () {
     if (this.visibleBoids.length == 0)
         return new Vector(0, 0);
+
+    var vBoids = this.visibleBoids;
+    var x = 0;
+    var y = 0;
+    var count = 0;
+
+    for (var i = 0; i < vBoids.length; i++) {
+        
+            var targetAt = vBoids[i].getVelocity().sub(this.geoData.velocity);
+            x += targetAt.getX();
+            y += targetAt.getY();
+            count++;
+    }
+
+    if (count > 0)
+        return new Vector((x / count) * 6, (y / count) * 6);
+    else
+        return new Vector(0, 0);
+
+    return new Vector(0, 0);
 };
 
 Brain.prototype.wanderBehavior = function () {

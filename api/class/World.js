@@ -97,12 +97,6 @@ World.prototype.run = function () {
     requestAnimationFrame(function () {
         return this.run();
     }.bind(this));
-
-    /*
-    setTimeout(function () {
-        this.run();
-    }.bind(this), 1000 / 60)
-    */
 };
 
 

@@ -5,16 +5,16 @@
         showPanelBenchmark: true
     });
 
-    var nBoids = 20;
+    var nBoids = 60;
     for (var i = 0; i < nBoids; i++)
         world.newBoid(new Boid({
         world: world,
         geoData: {
             position: new Vector(Math.randomMinMax(0, 400), Math.randomMinMax(0, 400)),
-            velocity: new Vector(0, 0),
+            velocity: new Vector(Math.randomMinMax(-10, 10), Math.randomMinMax(-10, 10)),
             acceleration: new Vector(0, 0)
         },
-        behaviour: ["separation", "wander"],
+        behaviour: ["separation", "cohesion", "alignment"],
         sizeBody: 12
     }));
 
