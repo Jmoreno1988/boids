@@ -41,8 +41,8 @@ Boid.prototype.move = function () {
 
 Boid.prototype.updatePhysics = function (currentTime) {
     this.geoData.acceleration = this.brain.desiredAcceleration();
-    this.geoData.velocity = this.integrate(this.geoData.velocity, this.geoData.acceleration, this.myWorld.getDeltaT());
-    this.geoData.position = this.integrate(this.geoData.position, this.geoData.velocity, this.myWorld.getDeltaT() * this.myWorld.getVelWorld());
+    this.geoData.velocity = Math.integrate(this.geoData.velocity, this.geoData.acceleration, this.myWorld.getDeltaT());
+    this.geoData.position = Math.integrate(this.geoData.position, this.geoData.velocity, this.myWorld.getDeltaT() * this.myWorld.getVelWorld());
 
     this.clipAcceleration();
     this.clipVelocity();
@@ -72,10 +72,6 @@ Boid.prototype.regulatePosition = function() {
     if(p.getY() > c.height) p.setY(0);
     if(p.getY() < 0) p.setY(c.height);
 }
-
-Boid.prototype.integrate = function (primitive, diff, delta) {
-    return primitive.add(diff.scale(delta));
-};
 
 Boid.prototype.draw = function () {
     var ctx = this.myWorld.getCtx();

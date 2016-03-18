@@ -7,7 +7,6 @@ function Brain(config) {
     this.behaviour = config.behaviour;
     this.visibleBoids = [];
     this.vision = config.vision;
-    this.lastTime = new Date().getTime();
 
     this.theta = 0;
     this.elapsedTime = 0;

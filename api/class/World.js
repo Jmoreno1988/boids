@@ -67,10 +67,6 @@ World.prototype.clearCanvas = function () {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 };
 
-World.prototype.random = function (n1, n2) {
-    return Math.round(Math.random() * (n2 - n1) + parseInt(n1));
-};
-
 World.prototype.updateTime = function () {
     this.deltaT = (this.currentTime - this.lastTime) / 1000;// Objetivo 0.1
     this.lastTime = this.currentTime;
@@ -137,4 +133,8 @@ World.prototype.getVelWorld = function() {
 
 World.prototype.getCanvas = function() {
     return this.canvas;
+}
+
+World.prototype.getCtx = function() {
+    return this.ctx;
 }
