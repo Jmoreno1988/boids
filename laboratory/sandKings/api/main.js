@@ -2,28 +2,31 @@
 
     var world = new SandWorld({
         idWorld: "world",
-        showPanelBenchmark: true
+        showPanelBenchmark: true,
+        food: 1
     });
 
-    var redTeam = world.createTeam({
-        seekers: 1,
-        workers: 2,
-        //warriors: 10,
+    var redMind = new HiveMind({
+        world: world,
+        seekers: 2,
         colour: "red",
-        positionCastle: new Vector(150, 150),
-        positionWorkers: new Vector(200, 200),
-        positionSeekers: new Vector(250, 250)
+        positionCastle: new Vector(60, 60)
     })
 
-    var redTeam = world.createTeam({
-        seekers: 1,
-        workers: 2,
-        //warriors: 10,
+    var blueMind = new HiveMind({
+        world: world,
+        seekers: 2,
         colour: "blue",
-        positionCastle: new Vector(window.innerWidth - 150, window.innerHeight - 150),
-        positionWorkers: new Vector(window.innerWidth - 200, window.innerHeight - 200),
-        positionSeekers: new Vector(window.innerWidth - 250, window.innerHeight - 250)
+        positionCastle: new Vector(window.innerWidth - 60, window.innerHeight - 100)
     })
+
+    world.newHiveMind(redMind);
+    world.newHiveMind(blueMind);
 
     world.run();
 };
+
+function l() { // log
+    for (var i = 0; i < arguments.length; i++)
+        console.log(arguments[i]);
+}

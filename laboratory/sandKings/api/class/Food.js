@@ -7,6 +7,7 @@ function Food(config) {
 	this.imgFood = new Image();
     this.imgFood.src = "api/img/food2.png";
     this.isTouch = false;
+    this.weight = 11;
 }
 
 Food.prototype.getImg = function() {

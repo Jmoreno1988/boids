@@ -6,8 +6,8 @@ function Brain(config) {
 
     this.body = config.body;
     this.geoData = config.geoData;
-    this.objective = new Vector(200,200);
-    this.behaviour = config.behaviour;
+    this.objective = null;
+    this.behavior = config.behavior || [];
     this.visibleBoids = [];
     this.vision = config.vision;
 
@@ -18,8 +18,8 @@ function Brain(config) {
     this.showExclamation = false;
 }
 
-Brain.prototype.setBehavior = function () {
-
+Brain.prototype.setBehavior = function (newValue) {
+    this.behavior = newValue;
 }
 
 Brain.prototype.desiredAcceleration = function () {
@@ -28,12 +28,12 @@ Brain.prototype.desiredAcceleration = function () {
     var x = 0, 
         y = 0;
 
-    if (typeof (this.behaviour) === "string") {
-        callMethod = "this." + this.behaviour + "Behavior()";
+    if (typeof (this.behavior) === "string") {
+        callMethod = "this." + this.behavior + "Behavior()";
         emp.push(eval(callMethod));
-    } else if (this.behaviour instanceof Array) {
-        for (var i = 0; i < this.behaviour.length; i++) {
-            callMethod = "this." + this.behaviour[i] + "Behavior()";
+    } else if (this.behavior instanceof Array) {
+        for (var i = 0; i < this.behavior.length; i++) {
+            callMethod = "this." + this.behavior[i] + "Behavior()";
             temp.push(eval(callMethod));
         }
     }
@@ -49,6 +49,7 @@ Brain.prototype.desiredAcceleration = function () {
 Brain.prototype.listVisibleBoids = function () {
     var vision = this.vision * this.vision;
     var listBoids = this.body.myWorld.getListBoids();
+    
     this.visibleBoids = [];
 
     for (var i = 0; i < listBoids.length; i++) 
@@ -146,13 +147,25 @@ Brain.prototype.wanderBehavior = function () {
 };
 
 Brain.prototype.seekBehavior = function () {
-    
+    if(this.objective == null)
+        return new Vector(0, 0);
+
+    //if(this.geoData.position.module(this.objective) < this.vision)
+    //    return new Vector(0, 0);//this.geoData.velocity = this.geoData.velocity.unit().scale(this.geoData.position.module(this.objective));
+    return this.geoData.position.director(this.objective).unit().scale(30).sub(this.geoData.velocity);
 };
 
+Brain.prototype.addBehavior = function (newBehavior) {
+    this.behavior.push(newBehavior)
+};
 
 /***** Getters & Setters *****/
 Brain.prototype.setObjective = function (newValue) {
-    this.objetive = newValue;
+    this.objective = newValue;
+};
+
+Brain.prototype.getObjective = function (newValue) {
+    return this.objective
 };
 
 Brain.prototype.getVision = function (newValue) {

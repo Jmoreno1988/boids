@@ -4,6 +4,7 @@ function Boid(config) {
     if(!config)
         return;
 
+    this.id = config.id || null;
     this.myWorld = config.world;
     this.geoData = config.geoData || {
         position: new Vector(0, 0),
@@ -16,12 +17,12 @@ function Boid(config) {
     };
     this.colour = config.colour || "tomato";
     this.mass = config.mass || 2;
-    this.behaviour = config.behaviour || "separation"
+    this.behavior = config.behavior || "separation"
     this.brain = config.brain || new Brain({
         body: this,
         vision: config.vision || 60,
         geoData: this.geoData,
-        behaviour: this.behaviour
+        behavior: this.behavior
     });
      this.sizeBody = config.sizeBody || 10;
 
@@ -31,13 +32,15 @@ function Boid(config) {
     // Animal
     this.imgExclamation = new Image();
     this.imgExclamation.src = "api/img/exclamation.png";
+
+    this.inHouse = false;
 }
 
-Boid.prototype.setBehaviour = function (behaviour) {
-    this.brain.setBehaviour(behaviour);
+Boid.prototype.setBehaviour = function (behavior) {
+    this.brain.setBehaviour(behavior);
 }
 
-Boid.prototype.getBehaviour = function (behaviour) {
+Boid.prototype.getBehaviour = function (behavior) {
     return this.brain.getBehaviour();
 }
 
@@ -74,13 +77,14 @@ Boid.prototype.regulatePosition = function() {
     var p = this.geoData.position;
     var c = this.myWorld.getCanvas();
 
-    if(p.getX() > c.width) p.setX(0);
-    if(p.getX() < 0) p.setX(c.width);
-    if(p.getY() > c.height) p.setY(0);
-    if(p.getY() < 0) p.setY(c.height);
+    if(p.getX() > c.width) p.setX(c.width - 1);
+    if(p.getX() < 0) p.setX(1);
+    if(p.getY() > c.height) p.setY(c.height - 1);
+    if(p.getY() < 0) p.setY(1);
 }
 
 Boid.prototype.draw = function () {
+    if(!this.inHouse){
     var ctx = this.myWorld.getCtx();
 /*
     var angle = Math.atan2(this.geoData.velocity.getY(), this.geoData.velocity.getX());
@@ -135,7 +139,7 @@ Boid.prototype.draw = function () {
     // Exclamacion
     if(this.brain.showExclamation == true)
         ctx.drawImage(this.imgExclamation, this.geoData.position.getX() - 8, this.geoData.position.getY() - 26);
-
+    }
 
 };
 
