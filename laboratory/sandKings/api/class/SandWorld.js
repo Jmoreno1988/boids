@@ -10,11 +10,15 @@ function SandWorld(config) {
     this.listHiveMinds = [];
 }
 
+SandWorld.prototype.newHiveMind = function (newHiveMind) {
+    this.listHiveMinds.push(newHiveMind);
+}
+
 SandWorld.prototype.generateFood = function(nFood) {
     var food = [];
 
     for(var i = 0; i < nFood; i++) 
-    	food.push(new Food({ id: i, type: 1, position: new Vector(Math.randomMinMax(0, window.innerWidth), Math.randomMinMax(110, window.innerHeight)) }))
+        food.push(new Food({ id: i, type: 1, position: new Vector(Math.randomMinMax(0, window.innerWidth), Math.randomMinMax(110, window.innerHeight)) }))
 
     return food; 
 }
@@ -37,10 +41,6 @@ SandWorld.prototype.generatePalms = function(nPalms1, nPalms2) {
     return palms;
 }
 
-SandWorld.prototype.newHiveMind = function (newHiveMind) {
-    this.listHiveMinds.push(newHiveMind);
-}
-
 SandWorld.prototype.draw = function () {
     if(this.showPanelBenchmark)
         this.updatePanelBenchmark();
@@ -53,9 +53,11 @@ SandWorld.prototype.draw = function () {
         else if(this.palms[i].type == 2)
             this.ctx.drawImage(this.imgPalm2, this.palms[i].position.getX(), this.palms[i].position.getY());
 */
+
     // Comida
     for(var i = 0; i < this.listFood.length; i++)
         this.ctx.drawImage(this.listFood[i].getImg(), this.listFood[i].position.getX() - 12, this.listFood[i].position.getY() - 12);
+
 };
 
 SandWorld.prototype.run = function() {
@@ -71,10 +73,12 @@ SandWorld.prototype.run = function() {
     }.bind(this));
 }
 
-SandWorld.prototype.getListFood = function() {
-	return this.listFood;
-}
-
 SandWorld.prototype.eraseFood = function(id) {
 	this.listFood.splice(id, 1);
+}
+
+
+/***** Getters & Setters *****/
+SandWorld.prototype.getListFood = function() {
+    return this.listFood;
 }

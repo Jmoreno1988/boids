@@ -105,6 +105,7 @@ Boid.prototype.draw = function () {
     ctx.arc(this.geoData.position.getX(), this.geoData.position.getY(), this.sizeBody -2, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.fill();
+
     // Cuerpo exterior
     ctx.beginPath();
     ctx.arc(this.geoData.position.getX(), this.geoData.position.getY(), this.sizeBody, 0, Math.PI * 2, true);
@@ -127,7 +128,6 @@ Boid.prototype.draw = function () {
     ctx.lineTo(this.geoData.position.getX() + this.geoData.acceleration.getX(), this.geoData.position.getY() + this.geoData.acceleration.getY());
     ctx.closePath();
     ctx.stroke();
-    */
 
     // Vision
     if(this.brain instanceof SeekerBrain) {
@@ -136,6 +136,7 @@ Boid.prototype.draw = function () {
         ctx.closePath();
         ctx.stroke();
     }
+    */
     // Exclamacion
     if(this.brain.showExclamation == true)
         ctx.drawImage(this.imgExclamation, this.geoData.position.getX() - 8, this.geoData.position.getY() - 26);

@@ -3,25 +3,22 @@
     var world = new SandWorld({
         idWorld: "world",
         showPanelBenchmark: true,
-        food: 1
+        food: 10
     });
 
-    var redMind = new HiveMind({
+    world.newHiveMind(new HiveMind({
         world: world,
         seekers: 2,
-        colour: "red",
+        colour: "#FE2E2E",
         positionCastle: new Vector(60, 60)
-    })
+    }));
 
-    var blueMind = new HiveMind({
+    world.newHiveMind(new HiveMind({
         world: world,
-        seekers: 2,
-        colour: "blue",
+        seekers: 1,
+        colour: "#4A91FF",
         positionCastle: new Vector(window.innerWidth - 60, window.innerHeight - 100)
-    })
-
-    world.newHiveMind(redMind);
-    world.newHiveMind(blueMind);
+    }));
 
     world.run();
 };

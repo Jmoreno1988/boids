@@ -2,7 +2,7 @@ HiveMind.prototype.constructor = HiveMind;
 
 function HiveMind (config) {
 	this.world = config.world;
-	this.castle = new Castle({position: config.positionCastle})
+	this.castle = new Castle({ position: config.positionCastle })
 	this.colour = config.colour;
 	this.listBoids = [];
 	this.seekers = this.createSeekers(config.seekers);
@@ -10,10 +10,16 @@ function HiveMind (config) {
 	this.warriors = [];
 	this.groupWorkers = [];
 
-	this.hungry = 29;
+	this.countTime = 0;
+	this.hungry = 100;
+	this.life = 100;
+	this.population = 30;
+	this.maxPopulation = 250;
 }
 
 HiveMind.prototype.run = function() {
+	this.updateHungry();
+
 	for (var i = 0; i < this.listBoids.length; i++)
         this.listBoids[i].run();
 
@@ -23,14 +29,12 @@ HiveMind.prototype.run = function() {
 
 		// Si han visto algo estan esperando a que lleguen los workers a recogerlo
 		if(this.seekers[i].getBrain().getActualState() == "pendingWorkers") {
-			// Pedir workers 
+			// Pedir workers
 			this.createGroupWorkers(10, this.seekers[i].getBrain().getActualObject(), this.seekers[i]);
 			// Pasar a waiting
 			this.seekers[i].getBrain().setActualState("waiting");
 		}	
 	}
-
-
 
 	for(var i = 0; i < this.groupWorkers.length; i++) {
 		// calculamos el vector medio 
@@ -62,26 +66,29 @@ HiveMind.prototype.run = function() {
 			this.groupWorkers[i].seeker = null
 		}
 
-/*
+
 		// Borramos  el groupWorkers
-		if(this.groupWorkers[i].isCollected && this.groupWorkers[i].middleVector.module(this.groupWorkers[i].workers[0].getBrain().getObjective()) < 5) {
+		if(this.groupWorkers[i].isCollected && this.groupWorkers[i].middleVector.module(this.groupWorkers[i].workers[0].getBrain().getObjective()) < 10) {
 			for(var e = 0; e < this.groupWorkers[i].workers.length; e++)
 				this.groupWorkers[i].workers[e].getBrain().dead();
+			this.groupWorkers.splice(i,1);
 		}
-		*/
+		
 	}
-
-//}
-		// El que este viendo algo que se pare y se mandan los worikers a recogerlo
-
-		// cuando sean suficientes vuelta a casa y seeker liberado
-
-
 		// Pintar castillo
 		this.castle.draw(this.world.getCtx());
 
-		// Barra de hambre
-		this.drawHungryBar(this.world.getCtx());
+		// Pintar info
+		this.drawInfoHiveMind(this.world.getCtx());
+}
+
+HiveMind.prototype.updateHungry = function () {
+	this.countTime += this.world.getDeltaT();
+	
+	if(this.countTime > 1 && this.hungry > 0) {
+		this.hungry -= 1;
+		this.countTime = 0;
+	}
 }
 
 
@@ -108,6 +115,7 @@ HiveMind.prototype.createGroupWorkers = function(n, objective, seeker) {
 
 	worker.setBrain(new WorkerBrain({
         	body: worker,
+        	hiveMind: this,
         	vision:  60,
         	geoData: worker.geoData,
         	behaviour: worker.behaviour,
@@ -167,7 +175,7 @@ HiveMind.prototype.generatePositions = function(initPosition, total) {
     var r = 20;
     var theta = 0;
     var initX = initPosition.getX();
-    var initY = initPosition.getY() + 32;
+    var initY = initPosition.getY();
 
     for(var i = 0; i < total - 1; i++){
         positions.push(new Vector((r * Math.cos(theta)) + initX, (r * Math.sin(theta) + initY)));
@@ -179,17 +187,10 @@ HiveMind.prototype.generatePositions = function(initPosition, total) {
     return positions;
 }
 
-HiveMind.prototype.drawHungryBar = function (ctx) {
-	
-	var color = this.hungry > 30 ? "green" : "red";
-
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(this.castle.getPosition().getX() - 32, this.castle.getPosition().getY() + 80);
-    ctx.lineTo(this.castle.getPosition().getX() - 32 + (this.hungry), this.castle.getPosition().getY() + 80);
-    ctx.closePath();
-    ctx.stroke();
-
-    ctx.lineWidth = 1;
+HiveMind.prototype.drawInfoHiveMind = function (ctx) {
+    ctx.fillStyle = "white";
+    ctx.font = "12px Arial";
+	ctx.fillText("Hungry: " + this.hungry, this.castle.getPosition().getX() - 40, this.castle.getPosition().getY() - 10);
+	ctx.fillText("Population: " + this.population, this.castle.getPosition().getX() - 40, this.castle.getPosition().getY() + 5);
+	ctx.fillText("Life: " + this.life, this.castle.getPosition().getX() - 40, this.castle.getPosition().getY() + 20);
 }
