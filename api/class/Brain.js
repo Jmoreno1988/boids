@@ -3,7 +3,8 @@ Brain.prototype.constructor = Brain;
 function Brain(config) {
     this.body = config.body;
     this.geoData = config.geoData;
-    this.objetive = new Vector(0, 0);
+    this.physicLimits = config.physicLimits || {};
+    this.objective = null;
     this.behaviour = config.behaviour;
     this.visibleBoids = [];
     this.vision = config.vision;
@@ -140,13 +141,16 @@ Brain.prototype.wanderBehavior = function () {
 };
 
 Brain.prototype.seekBehavior = function () {
+    if(!this.objective)
+    return new Vector(0, 0);
 
+    return this.geoData.position.director(this.objective).unit().scale(this.physicLimits.accelerationMax).sub(this.geoData.velocity);
 };
 
 
 /***** Getters & Setters *****/
-Brain.prototype.setObjetive = function (newValue) {
-    this.objetive = newValue;
+Brain.prototype.setObjective = function (newValue) {
+    this.objective = newValue;
 };
 
 Brain.prototype.getVision = function (newValue) {

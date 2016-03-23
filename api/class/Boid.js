@@ -21,6 +21,7 @@ function Boid(config) {
         body: this,
         vision: config.vision || 60,
         geoData: this.geoData,
+        physicLimits: this.physicLimits,
         behaviour: this.behaviour
     });
      this.sizeBody = config.sizeBody || 10;
