@@ -1,5 +1,5 @@
 // Math class extension
-// TODO: buscar una mejor manera de añadir metodos estaticos en Javascript
+// TODO: buscar una mejor manera de añadir metodos estaticos a clases existentes en Javascript
 Math.randomMinMax = function(min, max) {
 	return Math.round(Math.random() * (max - min) + parseInt(min));
 }

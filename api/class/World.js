@@ -14,7 +14,7 @@ function World(config) {
     this.velWorld = config.velWorld || 6;
 
     // Listeners
-    this.canvas.addEventListener('mousemove', this.canvasMouseMove.bind(this));
+    //this.canvas.addEventListener('mousemove', this.canvasMouseMove.bind(this));
 }
 
 World.prototype.canvasMouseMove = function (evt) {
@@ -84,6 +84,8 @@ World.prototype.draw = function () {
     if(this.showPanelBenchmark)
         this.updatePanelBenchmark();
     this.clearCanvas();
+
+    //path.draw(this.ctx)
 };
 
 World.prototype.run = function () {

@@ -11,6 +11,9 @@ function Brain(config) {
 
     this.theta = 0;
     this.elapsedTime = 0;
+
+    this.pathForward = null;
+    this.actualNode = 0;
 }
 
 Brain.prototype.setBehavior = function () {
@@ -125,8 +128,6 @@ Brain.prototype.alignmentBehavior = function () {
         return new Vector((x / count) * 6, (y / count) * 6);
     else
         return new Vector(0, 0);
-
-    return new Vector(0, 0);
 };
 
 Brain.prototype.wanderBehavior = function () {
@@ -142,11 +143,32 @@ Brain.prototype.wanderBehavior = function () {
 
 Brain.prototype.seekBehavior = function () {
     if(!this.objective)
-    return new Vector(0, 0);
+        return new Vector(0, 0);
 
     return this.geoData.position.director(this.objective).unit().scale(this.physicLimits.accelerationMax).sub(this.geoData.velocity);
 };
 
+Brain.prototype.pathFollowingBehavior = function () {
+    if(!this.pathForward)
+        return new Vector(0, 0);
+
+    var positionNode = this.pathForward.getNode(this.actualNode);
+    var vector = this.geoData.position.director(positionNode).unit().scale(this.physicLimits.accelerationMax).sub(this.geoData.velocity);
+    
+    // Next node
+    if(this.body.geoData.position.module(positionNode) < this.pathForward.getRadius())
+        this.actualNode++;
+
+    // Reset path
+    if(this.actualNode == this.pathForward.getNodes().length)
+        this.actualNode = 0;
+
+    return vector.scale(3);
+}
+
+Brain.prototype.setPathForward = function (newPath) {
+    this.pathForward = newPath;
+};
 
 /***** Getters & Setters *****/
 Brain.prototype.setObjective = function (newValue) {

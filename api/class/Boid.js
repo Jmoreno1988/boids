@@ -11,8 +11,8 @@ function Boid(config) {
         acceleration: new Vector(0, 0)
     };
     this.physicLimits = config.physicLimits || {
-        velocityMax: 30,
-        accelerationMax: 30
+        velocityMax: 20,
+        accelerationMax: 20
     };
     this.colour = config.colour || "tomato";
     this.mass = config.mass || 2;
@@ -104,8 +104,7 @@ Boid.prototype.draw = function () {
     ctx.closePath();
     ctx.stroke();
 
-    */
-    /*
+    
     // Direccion
     ctx.strokeStyle = "black";
     ctx.beginPath();
@@ -122,6 +121,7 @@ Boid.prototype.draw = function () {
     ctx.closePath();
     ctx.stroke();
     */
+    
 };
 
 Boid.prototype.run = function () {

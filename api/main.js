@@ -10,7 +10,7 @@
         world.newBoid(new Boid({
         world: world,
         geoData: {
-            position: new Vector(Math.randomMinMax(0, 400), Math.randomMinMax(0, 400)),
+            position: new Vector(Math.randomMinMax(0, window.innerWidth), Math.randomMinMax(0, window.innerHeight)),
             velocity: new Vector(Math.randomMinMax(-10, 10), Math.randomMinMax(-10, 10)),
             acceleration: new Vector(0, 0)
         },

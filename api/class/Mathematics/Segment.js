@@ -14,6 +14,4 @@ Segment.prototype.draw = function(ctx) {
     ctx.stroke();
 }
 
-Segment.prototype.intersectionCircle = function (circle) {
-	
-}
+Segment.prototype.intersectionCircle = function (circle) { }
