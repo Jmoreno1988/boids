@@ -148,6 +148,7 @@ Brain.prototype.seekBehavior = function () {
     return this.geoData.position.director(this.objective).unit().scale(this.physicLimits.accelerationMax).sub(this.geoData.velocity);
 };
 
+// TODO: revisar
 Brain.prototype.pathFollowingBehavior = function () {
     if(!this.pathForward)
         return new Vector(0, 0);
@@ -166,9 +167,26 @@ Brain.prototype.pathFollowingBehavior = function () {
     return vector.scale(3);
 }
 
-Brain.prototype.setPathForward = function (newPath) {
-    this.pathForward = newPath;
-};
+// TODO: interseccion segmento-segmento y segmento-conica
+Brain.prototype.obstacleAvoidanceBehavior = function () {
+    // Circles
+    for(var i = 0; i < this.body.myWorld.getListObstacles().length; i++) {
+        var actualObstacle = this.body.myWorld.getListObstacles()[i];
+        var x1 = this.geoData.position.getX();
+        var y1 = this.geoData.position.getY();
+        var dx = actualObstacle.getCenter().getX();
+        var dy = actualObstacle.getCenter().getY();
+
+        var auxV = this.geoData.velocity.unit().scale(60);
+        var securityDistance = new Vector(x1 + auxV.getX(), y1 + auxV.getY());
+    
+        if(securityDistance.module(actualObstacle.getCenter()) < actualObstacle.getRadius())
+            return new Vector(securityDistance.getX() - dx, securityDistance.getY() - dy).unit().scale(100);
+    }
+
+    return new Vector(0, 0);
+}
+
 
 /***** Getters & Setters *****/
 Brain.prototype.setObjective = function (newValue) {
@@ -177,4 +195,8 @@ Brain.prototype.setObjective = function (newValue) {
 
 Brain.prototype.getVision = function (newValue) {
     return this.vision;
+};
+
+Brain.prototype.setPathForward = function (newPath) {
+    this.pathForward = newPath;
 };

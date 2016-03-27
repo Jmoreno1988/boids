@@ -81,7 +81,7 @@ Boid.prototype.draw = function () {
     var ctx = this.myWorld.getCtx();
 
     var angle = Math.atan2(this.geoData.velocity.getY(), this.geoData.velocity.getX());
-
+    
     ctx.translate(this.geoData.position.getX(), this.geoData.position.getY());
     ctx.rotate(1.570792);
     ctx.rotate(angle);
@@ -121,7 +121,6 @@ Boid.prototype.draw = function () {
     ctx.closePath();
     ctx.stroke();
     */
-    
 };
 
 Boid.prototype.run = function () {

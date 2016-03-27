@@ -13,6 +13,8 @@ function World(config) {
     this.ctx.canvas.height = window.innerHeight;
     this.velWorld = config.velWorld || 6;
 
+    this.listObstacles = config.listObstacles || [];
+
     // Listeners
     //this.canvas.addEventListener('mousemove', this.canvasMouseMove.bind(this));
 }
@@ -86,6 +88,10 @@ World.prototype.draw = function () {
     this.clearCanvas();
 
     //path.draw(this.ctx)
+
+    // draw obstacles
+    for(var i = 0; i < this.listObstacles.length; i++)
+        this.listObstacles[i].draw(this.ctx);
 };
 
 World.prototype.run = function () {
@@ -133,4 +139,8 @@ World.prototype.getCanvas = function() {
 
 World.prototype.getCtx = function() {
     return this.ctx;
+}
+
+World.prototype.getListObstacles = function () {
+    return this.listObstacles;
 }
