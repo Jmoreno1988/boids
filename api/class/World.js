@@ -9,8 +9,8 @@ function World(config) {
     this.fps = 0;
     this.showPanelBenchmark = config.showPanelBenchmark || false;
     this.listBoids = config.listBoids || [];
-    this.ctx.canvas.width = window.innerWidth;
-    this.ctx.canvas.height = window.innerHeight;
+    this.ctx.canvas.width = config.width || 400; // window.innerWidth;
+    this.ctx.canvas.height = config.height || 400; //window.innerHeight;
     this.velWorld = config.velWorld || 6;
 
     this.listObstacles = config.listObstacles || [];
@@ -143,4 +143,12 @@ World.prototype.getCtx = function() {
 
 World.prototype.getListObstacles = function () {
     return this.listObstacles;
+}
+
+World.prototype.getworldWidth = function() {
+    return this.ctx.canvas.width;
+}
+
+World.prototype.getworldHeight = function() {
+    return this.ctx.canvas.height;
 }

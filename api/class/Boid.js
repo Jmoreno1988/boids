@@ -16,25 +16,29 @@ function Boid(config) {
     };
     this.colour = config.colour || "tomato";
     this.mass = config.mass || 2;
-    this.behaviour = config.behaviour || "separation"
+    this.behavior = config.behavior || "separation"
     this.brain = new Brain({
         body: this,
         vision: config.vision || 60,
         geoData: this.geoData,
         physicLimits: this.physicLimits,
-        behaviour: this.behaviour
+        behavior: this.behavior
     });
-     this.sizeBody = config.sizeBody || 10;
+    this.sizeBody = config.sizeBody || 10;
 
-    this.img = new Image();
-    this.img.src = "api/img/arrow.png";
+    if(config.urlImg) {
+        this.img = new Image();
+        this.img.src = config.urlImg;
+    }
+
+    this.drawForce = config.drawForce || false;
 }
 
-Boid.prototype.setBehaviour = function (behaviour) {
-    this.brain.setBehaviour(behaviour);
+Boid.prototype.setBehaviour = function (behavior) {
+    this.brain.setBehaviour(behavior);
 }
 
-Boid.prototype.getBehaviour = function (behaviour) {
+Boid.prototype.getBehaviour = function (behavior) {
     return this.brain.getBehaviour();
 }
 
@@ -80,47 +84,76 @@ Boid.prototype.regulatePosition = function() {
 Boid.prototype.draw = function () {
     var ctx = this.myWorld.getCtx();
 
-    var angle = Math.atan2(this.geoData.velocity.getY(), this.geoData.velocity.getX());
-    
-    ctx.translate(this.geoData.position.getX(), this.geoData.position.getY());
-    ctx.rotate(1.570792);
-    ctx.rotate(angle);
-    ctx.drawImage( this.img, -9, -12.5);
-    ctx.rotate(-angle);
-    ctx.rotate(-1.570792);
-    ctx.translate(-this.geoData.position.getX(), -this.geoData.position.getY());
+    if(this.img) {
+        var angle = Math.atan2(this.geoData.velocity.getY(), this.geoData.velocity.getX());
+        var angleCorrection = 1.570792 // 90º en radianes 
 
-/*
-    // Cuerpo interior
-    ctx.fillStyle = this.colour;
-    ctx.strokeStyle = "black";
-    ctx.beginPath();
-    ctx.arc(this.geoData.position.getX(), this.geoData.position.getY(), this.sizeBody -2, 0, Math.PI * 2, true);
-    ctx.closePath();
-    ctx.fill();
-    // Cuerpo exterior
-    ctx.beginPath();
-    ctx.arc(this.geoData.position.getX(), this.geoData.position.getY(), this.sizeBody, 0, Math.PI * 2, true);
-    ctx.closePath();
-    ctx.stroke();
+        ctx.translate(this.geoData.position.getX(), this.geoData.position.getY());
+        ctx.rotate(angleCorrection);
+        ctx.rotate(angle);
+        ctx.drawImage( this.img, -(this.img.width / 2), -(this.img.height / 2));
+        ctx.rotate(-angle);
+        ctx.rotate(-angleCorrection);
+        ctx.translate(-this.geoData.position.getX(), -this.geoData.position.getY());
+    } else {
+        // Cuerpo interior
+        ctx.fillStyle = this.colour;
+        ctx.strokeStyle = "black";
+        ctx.beginPath();
+        ctx.arc(this.geoData.position.getX(), this.geoData.position.getY(), this.sizeBody -2, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Cuerpo exterior
+        ctx.beginPath();
+        ctx.arc(this.geoData.position.getX(), this.geoData.position.getY(), this.sizeBody, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.stroke();
+    }
 
-    
-    // Direccion
-    ctx.strokeStyle = "black";
-    ctx.beginPath();
-    ctx.moveTo(this.geoData.position.getX(), this.geoData.position.getY());
-    ctx.lineTo(this.geoData.position.getX() + this.geoData.velocity.getX(), this.geoData.position.getY() + this.geoData.velocity.getY());
-    ctx.closePath();
-    ctx.stroke();
+    if(this.drawForce) {
+        // Direccion
+        ctx.strokeStyle = "black";
+        ctx.beginPath();
+        ctx.moveTo(this.geoData.position.getX(), this.geoData.position.getY());
+        ctx.lineTo(this.geoData.position.getX() + this.geoData.velocity.getX(), this.geoData.position.getY() + this.geoData.velocity.getY());
+        ctx.closePath();
+        ctx.stroke();
 
-    // Aceleracion
-    ctx.strokeStyle = "red";
-    ctx.beginPath();
-    ctx.moveTo(this.geoData.position.getX(), this.geoData.position.getY());
-    ctx.lineTo(this.geoData.position.getX() + this.geoData.acceleration.getX(), this.geoData.position.getY() + this.geoData.acceleration.getY());
-    ctx.closePath();
-    ctx.stroke();
-    */
+        // Aceleracion
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+        ctx.moveTo(this.geoData.position.getX(), this.geoData.position.getY());
+        ctx.lineTo(this.geoData.position.getX() + this.geoData.acceleration.getX(), this.geoData.position.getY() + this.geoData.acceleration.getY());
+        ctx.closePath();
+        ctx.stroke();
+
+        // Wander
+        if(this.getBrain().isInBehaviors("wander")) {
+            var theta = this.getBrain().getTheta(); 
+            var r = this.getBrain().getVision();
+            var x = r * Math.cos(theta);
+            var y = r * Math.sin(theta);
+
+            ctx.beginPath();
+            ctx.arc(this.geoData.position.getX(), this.geoData.position.getY(), r, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(this.geoData.position.getX() + x, this.geoData.position.getY() + y, 5, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        // Path Following
+
+        // Obstacle Avoidance
+
+        // Seek & flee
+
+        // Pursue & Evade
+    }
 };
 
 Boid.prototype.run = function () {

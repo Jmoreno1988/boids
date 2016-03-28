@@ -5,7 +5,7 @@ function Brain(config) {
     this.geoData = config.geoData;
     this.physicLimits = config.physicLimits || {};
     this.objective = null;
-    this.behaviour = config.behaviour;
+    this.behavior = config.behavior;
     this.visibleBoids = [];
     this.vision = config.vision;
 
@@ -26,12 +26,12 @@ Brain.prototype.desiredAcceleration = function () {
     var x = 0, 
         y = 0;
 
-    if (typeof (this.behaviour) === "string") {
-        callMethod = "this." + this.behaviour + "Behavior()";
-        emp.push(eval(callMethod));
-    } else if (this.behaviour instanceof Array) {
-        for (var i = 0; i < this.behaviour.length; i++) {
-            callMethod = "this." + this.behaviour[i] + "Behavior()";
+    if (typeof (this.behavior) === "string") {
+        callMethod = "this." + this.behavior + "Behavior()";
+        temp.push(eval(callMethod));
+    } else if (this.behavior instanceof Array) {
+        for (var i = 0; i < this.behavior.length; i++) {
+            callMethod = "this." + this.behavior[i] + "Behavior()";
             temp.push(eval(callMethod));
         }
     }
@@ -187,6 +187,21 @@ Brain.prototype.obstacleAvoidanceBehavior = function () {
     return new Vector(0, 0);
 }
 
+Brain.prototype.isInBehaviors = function(behavior) {
+    var is = false;
+
+    if (typeof (this.behavior) === "string") {
+        if(this.behavior == behavior)
+                is = true;
+    } else if(this.behavior instanceof Array) {
+        for(var i = 0; i < this.behavior.length; i++)
+            if(this.behavior[i] == behavior)
+                is = true;
+    }
+
+    return is;
+}
+
 
 /***** Getters & Setters *****/
 Brain.prototype.setObjective = function (newValue) {
@@ -199,4 +214,8 @@ Brain.prototype.getVision = function (newValue) {
 
 Brain.prototype.setPathForward = function (newPath) {
     this.pathForward = newPath;
+};
+
+Brain.prototype.getTheta = function () {
+    return this.theta;
 };

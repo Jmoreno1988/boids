@@ -2,6 +2,8 @@
 
     var world = new World({
         idWorld: "world",
+        width: window.innerWidth,
+        height: window.innerHeight,
         showPanelBenchmark: true
     });
 
@@ -10,12 +12,13 @@
         world.newBoid(new Boid({
         world: world,
         geoData: {
-            position: new Vector(Math.randomMinMax(0, window.innerWidth), Math.randomMinMax(0, window.innerHeight)),
+            position: new Vector(Math.randomMinMax(0, world.getworldWidth()), Math.randomMinMax(0, world.getworldHeight())),
             velocity: new Vector(Math.randomMinMax(-10, 10), Math.randomMinMax(-10, 10)),
             acceleration: new Vector(0, 0)
         },
-        behaviour: ["separation", "cohesion", "alignment"],
-        sizeBody: 12
+        behavior: ["separation", "alignment", "cohesion"],
+        sizeBody: 12,
+        urlImg: "api/img/arrow.png"
     }));
 
     world.run();
