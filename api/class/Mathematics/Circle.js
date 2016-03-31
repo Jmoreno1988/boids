@@ -1,12 +1,13 @@
 Circle.prototype.constructor = Circle;
 
-function Circle(center, radius) {
-	this.center = center;
-	this.radius = radius;
+function Circle(config) {
+	this.center = config.center || new Vector(0, 0) ;
+	this.radius = config.radius || 25;
+    this.colour = config.colour || "tomato";
 }
 
 Circle.prototype.draw = function(ctx) {
-	ctx.fillStyle = "tomato";
+	ctx.fillStyle = this.colour;
     ctx.strokeStyle = "black";
 
     ctx.beginPath();

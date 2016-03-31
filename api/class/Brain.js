@@ -148,6 +148,14 @@ Brain.prototype.seekBehavior = function () {
     return this.geoData.position.director(this.objective).unit().scale(this.physicLimits.accelerationMax).sub(this.geoData.velocity);
 };
 
+
+Brain.prototype.fleeBehavior = function () {
+    if(!this.objective)
+        return new Vector(0, 0);
+    var v = this.geoData.position.director(this.objective).unit().scale(this.physicLimits.accelerationMax).sub(this.geoData.velocity);
+    return v.scale(-1);
+};
+
 // TODO: revisar
 Brain.prototype.pathFollowingBehavior = function () {
     if(!this.pathForward)

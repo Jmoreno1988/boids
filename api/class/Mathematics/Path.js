@@ -10,11 +10,15 @@ Path.prototype.draw = function (ctx) {
 	var initY = this.nodes[0].getY();
 
 	ctx.strokeStyle = "black";	
+	ctx.setLineDash([5, 5]);
+
 	ctx.beginPath();
     ctx.moveTo(initX , initY);
 	for(var i = 0; i < this.nodes.length; i++)
     	ctx.lineTo(this.nodes[i].getX(), this.nodes[i].getY());
     ctx.stroke();
+
+    ctx.setLineDash([0, 0]);
 
     ctx.strokeStyle = "red";
     for(var i = 0; i < this.nodes.length; i++){

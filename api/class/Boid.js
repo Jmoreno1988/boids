@@ -146,10 +146,6 @@ Boid.prototype.draw = function () {
             ctx.stroke();
         }
 
-        // Path Following
-
-        // Obstacle Avoidance
-
         // Seek & flee
 
         // Pursue & Evade

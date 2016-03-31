@@ -1,5 +1,6 @@
 ﻿window.onload = function() {
-
+    var imgs = ["arrowAmber", "arrowBlue", "arrowBrown", "arrowDeepPurple", "arrowGreen", "arrowGrey", "arrowIndigo", "arrowLime", "arrowOrange", "arrowPink", "arrowPurple", "arrowRed", "arrowTeal", "arrowYellow"];
+    
     var world = new World({
         idWorld: "world",
         width: window.innerWidth,
@@ -7,7 +8,7 @@
         showPanelBenchmark: true
     });
 
-    var nBoids = 60;
+    var nBoids = 200;
     for (var i = 0; i < nBoids; i++)
         world.newBoid(new Boid({
         world: world,
@@ -18,7 +19,7 @@
         },
         behavior: ["separation", "alignment", "cohesion"],
         sizeBody: 12,
-        urlImg: "api/img/arrow.png"
+        urlImg: "api/img/" + imgs[Math.randomMinMax(0, 13)] + ".png"
     }));
 
     world.run();

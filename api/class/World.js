@@ -14,6 +14,7 @@ function World(config) {
     this.velWorld = config.velWorld || 6;
 
     this.listObstacles = config.listObstacles || [];
+    this.listPaths = config.listPaths || [];
 
     // Listeners
     //this.canvas.addEventListener('mousemove', this.canvasMouseMove.bind(this));
@@ -87,11 +88,16 @@ World.prototype.draw = function () {
         this.updatePanelBenchmark();
     this.clearCanvas();
 
-    //path.draw(this.ctx)
 
     // draw obstacles
-    for(var i = 0; i < this.listObstacles.length; i++)
-        this.listObstacles[i].draw(this.ctx);
+    for(var i = 0; i < this.listObstacles.length; i++) {
+        this.listObstacles[i].draw(this.ctx)
+    }
+    
+    // draw paths
+    for(var i = 0; i < this.listPaths.length; i++) {
+       this.listPaths[i].draw(this.ctx)
+    }
 };
 
 World.prototype.run = function () {
@@ -112,6 +118,14 @@ World.prototype.run = function () {
 World.prototype.setListBoids = function (newValue) {
     this.listBoids = newValue;
 };
+
+World.prototype.setListPaths = function(newValue) {
+    this.listPaths = newValue;
+}
+
+World.prototype.setListObstacles = function (newValue) {
+    this.listObstacles = newValue; 
+}
 
 World.prototype.getListBoids = function () {
     return this.listBoids;
