@@ -145,15 +145,45 @@ Brain.prototype.seekBehavior = function () {
     if(!this.objective)
         return new Vector(0, 0);
 
-    return this.geoData.position.director(this.objective).unit().scale(this.physicLimits.accelerationMax).sub(this.geoData.velocity);
+    var position = this.geoData.position;
+    var objective = this.objective;
+    var accelerationMax = this.physicLimits.accelerationMax;
+    var velocity = this.geoData.velocity;
+
+    if(this.objective.constructor === Boid)
+        objective = this.objective.getPosition();
+
+    return position.director(objective).unit().scale(accelerationMax + 100).sub(velocity);
 };
 
 
 Brain.prototype.fleeBehavior = function () {
     if(!this.objective)
         return new Vector(0, 0);
-    var v = this.geoData.position.director(this.objective).unit().scale(this.physicLimits.accelerationMax).sub(this.geoData.velocity);
-    return v.scale(-1);
+
+    var position = this.geoData.position;
+    var objective = this.objective;
+    var accelerationMax = this.physicLimits.accelerationMax;
+    var velocity = this.geoData.velocity;
+
+    if(this.objective.constructor === Boid)
+        objective = this.objective.getPosition();
+
+    return (position.director(objective).unit().scale(accelerationMax + 100).sub(velocity)).scale(-1);
+};
+
+Brain.prototype.pursueBehavior = function () {
+    if(!this.objective)
+        return new Vector(0, 0);
+
+    var t = 1;
+    var position = this.geoData.position;
+    var velObjective = this.objective.getVelocity();
+    var velocity = this.geoData.velocity;
+    var objective = velObjective.scale(t);
+    var accelerationMax = this.physicLimits.accelerationMax;
+    //console.log(position.director(objective).unit().scale(accelerationMax + 100).sub(velocity))
+    return position.director(objective).unit().scale(accelerationMax + 100).sub(velocity);
 };
 
 // TODO: revisar
@@ -174,6 +204,7 @@ Brain.prototype.pathFollowingBehavior = function () {
 
     return vector.scale(3);
 }
+
 
 // TODO: interseccion segmento-segmento y segmento-conica
 Brain.prototype.obstacleAvoidanceBehavior = function () {

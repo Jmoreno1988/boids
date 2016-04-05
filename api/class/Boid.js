@@ -74,11 +74,12 @@ Boid.prototype.clipAcceleration = function() {
 Boid.prototype.regulatePosition = function() {
     var p = this.geoData.position;
     var c = this.myWorld.getCanvas();
+    var margen = 15;
 
-    if(p.getX() > c.width) p.setX(0);
-    if(p.getX() < 0) p.setX(c.width);
-    if(p.getY() > c.height) p.setY(0);
-    if(p.getY() < 0) p.setY(c.height);
+    if(p.getX() > c.width + margen) p.setX(-margen);
+    if(p.getX() < -15) p.setX(c.width + margen);
+    if(p.getY() > c.height + margen) p.setY(-margen);
+    if(p.getY() < -margen) p.setY(c.height + margen);
 }
 
 Boid.prototype.draw = function () {
@@ -166,6 +167,10 @@ Boid.prototype.getBrain = function () {
 
 Boid.prototype.getPosition = function () {
     return this.geoData.position;
+};
+
+Boid.prototype.getVelocity = function () {
+    return this.geoData.velocity;
 };
 
 Boid.prototype.getListVisibleBoids = function () {
