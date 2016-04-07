@@ -1,9 +1,9 @@
 ﻿window.onload = function() {
-    var imgs = [
+    var imgs = ["arrowBallFit"]/*[
         "arrowAmber", "arrowBlue", "arrowBrown", "arrowDeepPurple", "arrowGreen", "arrowGrey", 
         "arrowIndigo", "arrowLime", "arrowOrange", "arrowPink", "arrowPurple", "arrowRed", 
         "arrowTeal", "arrowYellow"
-    ];
+    ];*/
     
 
     /**************/
@@ -28,7 +28,7 @@
         },
         behavior: ["separation", "alignment", "cohesion"],
         sizeBody: 12,
-        urlImg: "api/img/" + imgs[Math.randomMinMax(0, 13)] + ".png"
+        urlImg: "api/img/" + imgs[Math.randomMinMax(0, imgs.length - 1)] + ".png"
     }));
 
     world.run();
