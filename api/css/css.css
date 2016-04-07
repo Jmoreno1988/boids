@@ -1,19 +1,96 @@
 ﻿html, body {
-  width:  100%;
-  height: 100%;
-  margin: 0px;
-  font-family: 'Roboto', sans-serif;
-	/*
-  overflow-y: hidden;
-  */
-  overflow-x: hidden;
+  	width:  100%;
+  	height: 100%;
+  	margin: 0px;
+  	font-family: 'Roboto', sans-serif;
+  	/*
+  	overflow-y: hidden;
+  	*/
+  	overflow-x: hidden;
+  	background-color: #eeeeee;
+}
+
+.shadow {
+	-webkit-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, .7);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, .7);
+    box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, .7);
 }
 
 canvas {
 	-webkit-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, .7);
     -moz-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, .7);
     box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, .7);
-	margin: 8px;
+}
+
+
+
+/*  SECTIONS  */
+.section {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+/*  COLUMN SETUP  */
+.col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+.col:first-child { margin-left: 0; }
+
+/*  GROUPING  */
+.group:before,
+.group:after { content:""; display:table; }
+.group:after { clear:both;}
+.group { zoom:1; /* For IE 6/7 */ }
+/*  GRID OF THREE  */
+.span_3_of_3 { width: 100%; }
+.span_2_of_3 { width: 66.13%; }
+.span_1_of_3 { width: 32.26%; }
+
+/*  GO FULL WIDTH BELOW 480 PIXELS */
+@media only screen and (max-width: 1220px) {
+	.col {  margin: 1% 0 1% 0%; }
+	.span_2_of_3, .span_1_of_3 { width: 50%; }
+}
+
+@media only screen and (max-width: 860px) {
+	.col {  margin: 1% 0 1% 0%; }
+	.span_3_of_3, .span_2_of_3, .span_1_of_3 { width: 100%; }
+}
+
+
+
+
+
+#wrap {
+	margin: 20px auto 0 auto; 
+	width: 90%;
+	height: 90%;
+	background-color: white;
+}
+
+#world{
+	margin-top: -170px;
+}
+
+.wrapWorld{
+	margin: 20px auto 0 auto; 
+	width: 400px;
+	height: 400px;
+	background-color: red;
+}
+
+.title {
+	font-size: 6em;
+	text-align: center;
+}
+
+.subTitle {
+	font-size: 2em;
+	text-align: center;
 }
 
 #panelBenchmark {
@@ -27,7 +104,66 @@ canvas {
 	position: absolute;
 	top: 0;
 	right: 0;
+	z-index: 2;
 }
 
+/*
+html, body {
+  width:  100%;
+  height: 100%;
+  margin: 0px;
+  font-family: 'Roboto', sans-serif;
 
+  overflow-x: hidden;
+  background-color: #eeeeee;
+}
 
+canvas {
+	-webkit-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, .7);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, .7);
+    box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, .7);
+    position: absolute;
+}
+
+#wrap {
+	margin: 20px auto 0 auto; 
+	width: 90%;
+	height: 90%;
+	background-color: white;
+}
+
+#qwe{
+
+}
+
+.wrapWorld{
+	margin: 20px auto 0 auto; 
+	width: 400px;
+	height: 400px;
+	background-color: grey;
+}
+
+.title {
+	font-size: 6em;
+	text-align: center;
+}
+
+.subTitle {
+	font-size: 2em;
+	text-align: center;
+}
+
+#panelBenchmark {
+	display: none;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+#labelGithub {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+}
+*/

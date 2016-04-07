@@ -1,5 +1,11 @@
 ﻿window.onload = function() {
-    var imgs = ["arrowBallFit"]/*[
+    var imgs = [
+        "arrowBallAmber", "arrowBallBlue", "arrowBallBrown", "arrowBallDeepPurple",
+        "arrowBallGreen", "arrowBallGrey", "arrowBallIndigo", "arrowBallLime",
+        "arrowBallOrange", "arrowBallPink", "arrowBallPurple", "arrowBallRed", 
+        "arrowBallTeal", "arrowBallYellow"
+    ]
+    /*[
         "arrowAmber", "arrowBlue", "arrowBrown", "arrowDeepPurple", "arrowGreen", "arrowGrey", 
         "arrowIndigo", "arrowLime", "arrowOrange", "arrowPink", "arrowPurple", "arrowRed", 
         "arrowTeal", "arrowYellow"
@@ -12,8 +18,8 @@
 
     var world = new World({
         idWorld: "world",
-        width: window.innerWidth - 30,
-        height: window.innerHeight- 30,
+        width: window.innerWidth * 0.9,
+        height: window.innerHeight * 0.9,
         showPanelBenchmark: false
     });
 

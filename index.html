@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Boids</title>
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="api/css/css.css" type="text/css" />
     <script type="text/javascript" src="api/class/Mathematics/Math.js"></script>
     <script type="text/javascript" src="api/class/Mathematics/Path.js"></script>
@@ -18,17 +18,68 @@
     <script type="text/javascript" src="api/main.js"></script>
 </head>
 <body>
+    <div id="wrap">
+            <div class="title"> Boids </div>
+            <div class="subTitle"> A distributed behavioral model </div>
+            <canvas id="world"></canvas>
+    </div>
+
+    <div class="section group">
+        <div class="col span_1_of_3">
+            <canvas id="worldWander"></canvas>
+        </div>
+        <div class="col span_1_of_3">
+            <canvas id="worldPath"></canvas>
+        </div>
+        <div class="col span_1_of_3">
+            <canvas id="worldObstacle"></canvas>
+        </div>
+    </div>
+
+    <div class="section group">
+        <div class="col span_1_of_3">
+            <canvas id="worldSeek"></canvas>
+        </div>
+        <div class="col span_1_of_3">
+            <canvas id="worldFlee"></canvas>
+        </div>
+        <div class="col span_1_of_3">
+            <canvas id="worldEvadePursue"></canvas>
+        </div>
+    </div>
+    <!--
     <a href="https://github.com/Jmoreno1988/boids" id="labelGithub"><img src="api/img/fork.png" alt="Fork me on GitHub"></a>
     <div id="panelBenchmark"> Boids: <span id="totalBoids">--</span> <br> fps: <span id="fps">--</span></div>
-    Boids
-    <canvas id="world"></canvas>
+    <div id="wrap">
+        
+        <div>
+            <div class="title"> Boids </div>
+            <div class="subTitle"> A distributed behavioral model </div>
+        <div id="qwe">
+        <canvas id="world"></canvas>
+    </div>
+
     <canvas id="worldWander"></canvas>
     <canvas id="worldPath"></canvas>
     <canvas id="worldObstacle"></canvas>
     <canvas id="worldSeek"></canvas>
     <canvas id="worldFlee"></canvas>
     <canvas id="worldEvadePursue"></canvas>
+        -->
     <!--
+    <div class="wrapWorld">
+        <canvas id="worldWander"></canvas>
+        <div class="subTitle"> Wander </div>
+    </div>
+    <div class="wrapWorld">
+        <canvas id="worldPath"></canvas>
+        <div class="subTitle"> Path Following </div>
+    </div>
+    <canvas id="worldPath"></canvas>
+    <canvas id="worldObstacle"></canvas>
+    <canvas id="worldSeek"></canvas>
+    <canvas id="worldFlee"></canvas>
+    <canvas id="worldEvadePursue"></canvas>
     <canvas id="worldArrival"></canvas>
     <canvas id="worldFlowFieldFollowing"></canvas>
     <canvas id="worldLeaderFollowing"></canvas>
