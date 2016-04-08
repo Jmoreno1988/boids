@@ -6,6 +6,9 @@ More info:
  - Reynolds page: http://www.red3d.com/cwr/boids/
  - Wikipedia: https://en.wikipedia.org/wiki/Boids
 
+### Examples
+ - Flocking: http://46.101.187.32/boids/
+
 ### Installation
 ```sh
 $ git clone https://github.com/Jmoreno1988/boids.git
