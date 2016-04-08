@@ -42,6 +42,6 @@ $ git clone https://github.com/Jmoreno1988/boids.git
 Want to contribute? Great!... Fork, fork, fork!! ;)
 
 ### License
-Copyright (C) 2016 José Moreno Casero <JMoreno Games>.
-
 GNU GENERAL PUBLIC LICENSE v3
+
+Copyright (C) 2016 JMoreno Games.
