@@ -5,7 +5,7 @@
 <BODY>
 	<script>
 
-    var scene, camera, renderer;
+    var scene, camera, renderer, cubo;
     var geometry, material, mesh;
 
     init();
@@ -18,14 +18,25 @@
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 10;
 
-        geometry = new THREE.SphereGeometry( 5, 16, 16 );
-        material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
 
-        mesh = new THREE.Mesh( geometry, material );
-        scene.add( mesh );
 
         renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
+
+        //var cuboTextura = new THREE.ImageUtils.loadTexture("Api/img/crate.gif");
+		var cuboMaterial = new THREE.MeshBasicMaterial({ color: 0x9999FF, side:THREE.DoubleSide });
+		var cuboGeometria = new THREE.CubeGeometry(2.5, 2.5, 2.5);
+		cubo = new THREE.Mesh(cuboGeometria, cuboMaterial);
+		scene.add( cubo );
+
+		var luz1 = new THREE.PointLight(0xff0044); // Rojizo
+			luz1.position.set(
+    			120, // Posición en eje X
+    			260, // Posición en eje Y
+    			100 // Posición en eje Z
+			);
+
+		scene.add(luz1);
 
         document.body.appendChild( renderer.domElement );
 
@@ -35,8 +46,8 @@
 
         requestAnimationFrame( animate );
 
-        mesh.rotation.x += 0.001;
-        mesh.rotation.y += 0.001;
+        cubo.rotation.x += 0.01;
+        cubo.rotation.y += 0.01;
 
         renderer.render( scene, camera );
 

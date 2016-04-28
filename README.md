@@ -39,7 +39,7 @@ $ git clone https://github.com/Jmoreno1988/boids.git
 ```
 
 ### Version
-0.5.2
+0.4
 
 ### Development
 Want to contribute? Great!... Fork, fork, fork!! ;)
